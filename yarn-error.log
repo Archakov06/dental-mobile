@@ -1,0 +1,46 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add styled-components
+
+PATH: 
+  C:\Program Files\cmder\bin;C:\Program Files\cmder\vendor\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\Program Files\PuTTY\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\OSPanel\modules\php\PHP-7.2-x64;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Dart\dart-sdk\bin;C:\Program Files\dotnet\;C:\Users\user\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\user\AppData\Local\Programs\Python\Python37-32\;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Local\Yarn\bin;C:\Users\user\AppData\Roaming\npm;C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\user\AppData\Local\ngrok;C:\Program Files\heroku\bin;D:\www\mongo\bin;C:\Other\flutter\bin;C:\Users\user\AppData\Roaming\Composer\vendor\bin;C:\Users\user\AppData\Local\Programs\Fiddler;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\cmder
+
+Yarn version: 
+  1.12.3
+
+Node version: 
+  10.13.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'D:\www\projects\test-reactnative\dental-app\node_modules\@react-native-community\cli\node_modules\node-fetch\lib'
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "^35.0.0",
+      "react": "16.8.3",
+      "react-dom": "16.8.3",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+      "react-native-web": "^0.11.7"
+    },
+    "devDependencies": {
+      "babel-preset-expo": "^7.0.0"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
