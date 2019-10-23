@@ -3,17 +3,29 @@ import { StyleSheet, Text, View, SectionList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import axios from 'axios';
+import Swipeable from 'react-native-swipeable-row';
 
 import { Appointment, SectionTitle } from '../components';
+import { appointmentsApi } from '../utils/api';
 
 const HomeScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    axios.get('https://trycode.pw/c/DL80P.json').then(({ data }) => {
-      setData(data);
-    });
-  }, []);
+  const fetchAppointments = () => {
+    setIsLoading(true);
+    appointmentsApi
+      .get()
+      .then(({ data }) => {
+        setData(data.data);
+        setIsLoading(false);
+      })
+      .catch(e => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(fetchAppointments, []);
 
   return (
     <Container>
@@ -21,15 +33,17 @@ const HomeScreen = ({ navigation }) => {
         <SectionList
           sections={data}
           keyExtractor={(item, index) => index}
+          onRefresh={fetchAppointments}
+          refreshing={isLoading}
           renderItem={({ item }) => (
-            <Appointment navigate={navigation.navigate} item={item} />
+            <Swipeable rightButtons={[<Text>Left</Text>, <Text>Right</Text>]}>
+              <Appointment navigate={navigation.navigate} item={item} />
+            </Swipeable>
           )}
-          renderSectionHeader={({ section: { title } }) => (
-            <SectionTitle>{title}</SectionTitle>
-          )}
+          renderSectionHeader={({ section: { title } }) => <SectionTitle>{title}</SectionTitle>}
         />
       )}
-      <PlusButton>
+      <PlusButton onPress={navigation.navigate.bind(this, 'AddPatient')}>
         <Ionicons name="ios-add" size={36} color="white" />
       </PlusButton>
     </Container>
@@ -41,9 +55,11 @@ HomeScreen.navigationOptions = {
   headerTintColor: '#2A86FF',
   headerStyle: {
     elevation: 0.8,
-    shadowOpacity: 0.8
-  }
+    shadowOpacity: 0.8,
+  },
 };
+
+const SwipeView = styled.View``;
 
 const PlusButton = styled.TouchableOpacity`
   align-items: center;

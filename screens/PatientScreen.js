@@ -3,14 +3,12 @@ import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Foundation, Ionicons } from '@expo/vector-icons';
 
-import { GrayText, Button, Badge } from '../components';
+import { GrayText, Button, Badge, Container } from '../components';
 
 const PatientScreen = ({ navigation }) => (
   <View style={{ flex: 1 }}>
     <PatientDetails>
-      <PatientFullname>
-        {navigation.getParam('user', {}).fullname}
-      </PatientFullname>
+      <PatientFullname>{navigation.getParam('user', {}).fullname}</PatientFullname>
       <GrayText>{navigation.getParam('user', {}).phone}</GrayText>
 
       <PatientButtons>
@@ -43,9 +41,7 @@ const PatientScreen = ({ navigation }) => (
               Диагноз: <Text style={{ fontWeight: '600' }}>пульпит</Text>
             </AppointmentCardLabel>
           </AppointmentCardRow>
-          <AppointmentCardRow
-            style={{ marginTop: 15, justifyContent: 'space-between' }}
-          >
+          <AppointmentCardRow style={{ marginTop: 15, justifyContent: 'space-between' }}>
             <Badge style={{ width: 155 }} active>
               11.10.2019 - 15:40
             </Badge>
@@ -90,11 +86,6 @@ const AppointmentCard = styled.View`
   background: white;
 `;
 
-const Container = styled.View`
-  padding: 25px;
-  flex: 1;
-`;
-
 const PatientDetails = styled(Container)`
   flex: 0.3;
 `;
@@ -131,8 +122,8 @@ PatientScreen.navigationOptions = {
   headerTintColor: '#2A86FF',
   headerStyle: {
     elevation: 0.8,
-    shadowOpacity: 0.8
-  }
+    shadowOpacity: 0.8,
+  },
 };
 
 export default PatientScreen;
