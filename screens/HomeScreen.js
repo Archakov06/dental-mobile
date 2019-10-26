@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SectionList, Alert } from 'react-native';
+import { SectionList, Alert, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import Swipeable from 'react-native-swipeable-row';
@@ -7,9 +7,11 @@ import Swipeable from 'react-native-swipeable-row';
 import { Appointment, SectionTitle, PlusButton } from '../components';
 import { appointmentsApi } from '../utils/api';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = props => {
+  const { navigation } = props;
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdateTime, setlastUpdateTime] = useState(null);
 
   const fetchAppointments = () => {
     setIsLoading(true);
@@ -17,14 +19,15 @@ const HomeScreen = ({ navigation }) => {
       .get()
       .then(({ data }) => {
         setData(data.data);
-        setIsLoading(false);
       })
-      .catch(e => {
+      .finally(e => {
         setIsLoading(false);
       });
   };
 
   useEffect(fetchAppointments, []);
+
+  useEffect(fetchAppointments, [navigation.state.params]);
 
   // TODO: Продумать удаление приемов
   const removeAppointment = id => {
@@ -35,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
         {
           text: 'Отмена',
           onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
+          style: 'cancel'
         },
         {
           text: 'Удалить',
@@ -49,10 +52,10 @@ const HomeScreen = ({ navigation }) => {
               .catch(() => {
                 setIsLoading(false);
               });
-          },
-        },
+          }
+        }
       ],
-      { cancelable: false },
+      { cancelable: false }
     );
   };
 
@@ -72,14 +75,18 @@ const HomeScreen = ({ navigation }) => {
                 </SwipeViewButton>,
                 <SwipeViewButton
                   onPress={removeAppointment.bind(this, item._id)}
-                  style={{ backgroundColor: '#F85A5A' }}>
+                  style={{ backgroundColor: '#F85A5A' }}
+                >
                   <Ionicons name="ios-close" size={48} color="white" />
-                </SwipeViewButton>,
-              ]}>
+                </SwipeViewButton>
+              ]}
+            >
               <Appointment navigate={navigation.navigate} item={item} />
             </Swipeable>
           )}
-          renderSectionHeader={({ section: { title } }) => <SectionTitle>{title}</SectionTitle>}
+          renderSectionHeader={({ section: { title } }) => (
+            <SectionTitle>{title}</SectionTitle>
+          )}
         />
       )}
       <PlusButton onPress={navigation.navigate.bind(this, 'AddPatient')} />
@@ -87,14 +94,22 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-HomeScreen.navigationOptions = {
-  title: 'Журнал пациентов',
+HomeScreen.navigationOptions = ({ navigation }) => ({
+  title: 'Журнал приёмов',
   headerTintColor: '#2A86FF',
   headerStyle: {
     elevation: 0.8,
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.8
   },
-};
+  headerRight: () => (
+    <TouchableOpacity
+      onPress={navigation.navigate.bind(this, 'Patients')}
+      style={{ marginRight: 20 }}
+    >
+      <Ionicons name="md-people" size={28} color="black" />
+    </TouchableOpacity>
+  )
+});
 
 const SwipeViewButton = styled.TouchableOpacity`
   width: 75px;

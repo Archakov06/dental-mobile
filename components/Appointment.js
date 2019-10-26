@@ -14,22 +14,25 @@ const Appointment = ({ navigate, item }) => {
     <GroupItem onPress={navigate.bind(this, 'Patient', item)}>
       <Avatar
         style={{
-          backgroundColor: avatarColors.background,
-        }}>
-        <Letter style={{ color: avatarColors.color }}>{patient.fullname[0].toUpperCase()}</Letter>
+          backgroundColor: avatarColors.background
+        }}
+      >
+        <Letter style={{ color: avatarColors.color }}>
+          {patient.fullname[0].toUpperCase()}
+        </Letter>
       </Avatar>
       <View style={{ flex: 1 }}>
         <FullName>{patient.fullname}</FullName>
         <GrayText>{diagnosis}</GrayText>
       </View>
-      <Badge active={active}>{time}</Badge>
+      {time && <Badge active={active}>{time}</Badge>}
     </GroupItem>
   );
 };
 
 Appointment.defaultProps = {
   groupTitle: 'Untitled',
-  items: [],
+  items: []
 };
 
 const Letter = styled.Text`

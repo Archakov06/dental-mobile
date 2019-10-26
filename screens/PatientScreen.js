@@ -3,9 +3,16 @@ import { Text, View, ActivityIndicator, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import { Foundation, Ionicons } from '@expo/vector-icons';
 
-import { GrayText, Button, Badge, Container, Appointment, PlusButton } from '../components';
+import {
+  GrayText,
+  Button,
+  Badge,
+  Container,
+  Appointment,
+  PlusButton
+} from '../components';
 
-import { patientsApi } from '../utils/api';
+import { patientsApi, phoneFormat } from '../utils';
 
 const PatientScreen = ({ navigation }) => {
   const [appointments, setAppointments] = useState([]);
@@ -27,8 +34,12 @@ const PatientScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <PatientDetails>
-        <PatientFullname>{navigation.getParam('patient', {}).fullname}</PatientFullname>
-        <GrayText>{navigation.getParam('patient', {}).phone}</GrayText>
+        <PatientFullname>
+          {navigation.getParam('patient', {}).fullname}
+        </PatientFullname>
+        <GrayText>
+          {phoneFormat(navigation.getParam('patient', {}).phone)}
+        </GrayText>
 
         <PatientButtons>
           <FormulaButtonView>
@@ -36,8 +47,13 @@ const PatientScreen = ({ navigation }) => {
           </FormulaButtonView>
           <PhoneButtonView>
             <Button
-              onPress={() => Linking.openURL('tel:' + navigation.getParam('patient', {}).phone)}
-              color="#84D269">
+              onPress={() =>
+                Linking.openURL(
+                  'tel:' + navigation.getParam('patient', {}).phone
+                )
+              }
+              color="#84D269"
+            >
               <Foundation name="telephone" size={22} color="white" />
             </Button>
           </PhoneButtonView>
@@ -52,21 +68,37 @@ const PatientScreen = ({ navigation }) => {
             appointments.map(appointment => (
               <AppointmentCard key={appointment._id}>
                 <MoreButton>
-                  <Ionicons name="md-more" size={24} color="rgba(0, 0, 0, 0.4)" />
+                  <Ionicons
+                    name="md-more"
+                    size={24}
+                    color="rgba(0, 0, 0, 0.4)"
+                  />
                 </MoreButton>
                 <AppointmentCardRow>
                   <Ionicons name="md-medical" size={16} color="#A3A3A3" />
                   <AppointmentCardLabel>
-                    Зуб: <Text style={{ fontWeight: '600' }}>{appointment.dentNumber}</Text>
+                    Зуб:{' '}
+                    <Text style={{ fontWeight: '600' }}>
+                      {appointment.dentNumber}
+                    </Text>
                   </AppointmentCardLabel>
                 </AppointmentCardRow>
                 <AppointmentCardRow>
-                  <Foundation name="clipboard-notes" size={16} color="#A3A3A3" />
+                  <Foundation
+                    name="clipboard-notes"
+                    size={16}
+                    color="#A3A3A3"
+                  />
                   <AppointmentCardLabel>
-                    Диагноз: <Text style={{ fontWeight: '600' }}>{appointment.diagnosis}</Text>
+                    Диагноз:{' '}
+                    <Text style={{ fontWeight: '600' }}>
+                      {appointment.diagnosis}
+                    </Text>
                   </AppointmentCardLabel>
                 </AppointmentCardRow>
-                <AppointmentCardRow style={{ marginTop: 15, justifyContent: 'space-between' }}>
+                <AppointmentCardRow
+                  style={{ marginTop: 15, justifyContent: 'space-between' }}
+                >
                   <Badge style={{ width: 155 }} active>
                     {appointment.date} - {appointment.time}
                   </Badge>
@@ -77,7 +109,11 @@ const PatientScreen = ({ navigation }) => {
           )}
         </Container>
       </PatientAppointments>
-      <PlusButton onPress={navigation.navigate.bind(this, 'AddAppointment')} />
+      <PlusButton
+        onPress={navigation.navigate.bind(this, 'AddAppointment', {
+          patientId: navigation.getParam('patient', {})._id
+        })}
+      />
     </View>
   );
 };
@@ -152,8 +188,8 @@ PatientScreen.navigationOptions = {
   headerTintColor: '#2A86FF',
   headerStyle: {
     elevation: 0.8,
-    shadowOpacity: 0.8,
-  },
+    shadowOpacity: 0.8
+  }
 };
 
 export default PatientScreen;
